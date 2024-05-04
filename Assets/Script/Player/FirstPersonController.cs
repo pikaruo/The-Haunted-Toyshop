@@ -25,6 +25,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private bool Sneak = true;
     [SerializeField] private float SneakSpeed;
 
+    public bool ActivityDevice = true;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; 
@@ -36,8 +38,13 @@ public class FirstPersonController : MonoBehaviour
         PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
+        if(ActivityDevice == false){
+
         MovePlayer();
         MoveCamera();
+
+        }
+
 
         if (Input.GetKey(KeyCode.LeftControl) && Sneak)
         {
@@ -49,6 +56,17 @@ public class FirstPersonController : MonoBehaviour
             Player.localScale = new Vector3(1f, 1f, 1f);
             Sneaking = false;
         }
+
+        if (Input.GetKey(KeyCode.LeftAlt)){
+            Cursor.lockState = CursorLockMode.Confined; 
+        }else{
+            if(ActivityDevice == true){
+                Cursor.lockState = CursorLockMode.Confined; 
+            }else{
+                Cursor.lockState = CursorLockMode.Locked; 
+            }
+        }
+       
     }
     private void MovePlayer()
     {
