@@ -8,44 +8,52 @@ public class LampManager : MonoBehaviour
     public List<string> listHintLampTurnOn = new List<string>();
     public List<string> listHintLampTurnOff = new List<string>();
     public List<TextMeshPro> listHintTxt = new List<TextMeshPro>();
-
+    // public List<TextMeshProUGUI> listHintTxt = new List<TextMeshProUGUI>();
 
     public List<GameObject> listLamp = new List<GameObject>();
-    public Material materialOn; // Material saat lampu menyala
-    public Material materialOff; // Material saat lampu mati
-    public List<Button> buttons = new List<Button>();
-
-    private bool lampOn = false; // Status lampu (menyala atau mati)
+    public List<GameObject> listLight = new List<GameObject>();
+    public List<GameObject> switchObjects = new List<GameObject>(); // GameObject sebagai saklar
 
     [SerializeField]
     private List<bool> lampStatus = new List<bool>(); // Status awal lampu
 
+    private bool lampOn = false;
+
+    public Transform playerTransform;
+    public float maxDistance_To_ToggleLamp = 2f;
+
     private void Start()
     {
-        // Memastikan jumlah lampu, tombol, dan teks sesuai
-        if (listLamp.Count != buttons.Count || listLamp.Count != listHintTxt.Count)
+        // Memastikan jumlah lampu, saklar, dan teks sesuai
+        if (listLamp.Count != switchObjects.Count || listLamp.Count != listHintTxt.Count)
         {
-            Debug.LogError("Jumlah lampu, tombol, dan teks tidak sama!");
+            Debug.LogError("Jumlah lampu, saklar, dan teks tidak sama!");
             return;
         }
 
-        // Menambahkan listener untuk setiap tombol
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            int index = i;
-            buttons[i].onClick.AddListener(() => ToggleLamp(index));
-        }
-
-        // Mengatur status awal lampu dan teks sesuai dengan status
+        // Menginisialisasi status awal lampu
         for (int i = 0; i < listLamp.Count; i++)
         {
-            Renderer lampRenderer = listLamp[i].GetComponent<Renderer>();
-            if (lampRenderer != null)
-            {
-                lampRenderer.material = lampStatus[i] ? materialOn : materialOff;
-            }
+            listLight[i].SetActive(lampStatus[i]);
+            listHintTxt[i].text = listHintLampTurnOff[i]; // Mengatur teks sesuai dengan status awal
+        }
+    }
 
-            listHintTxt[i].text = lampStatus[i] ? listHintLampTurnOn[i] : listHintLampTurnOff[i];
+    private void Update()
+    {
+        // Loop melalui setiap saklar
+        for (int i = 0; i < switchObjects.Count; i++)
+        {
+            // Memeriksa apakah jarak antara pemain dan objek kunci kurang dari atau sama dengan maxDistance
+            if (Vector3.Distance(playerTransform.transform.position, switchObjects[i].transform.position) <= maxDistance_To_ToggleLamp)
+            {
+                // Jika tombol keyboard untuk saklar ini ditekan
+                if (Input.GetMouseButtonDown(0)) // Ubah menjadi tombol yang diinginkan
+                {
+                    // Menyalakan atau mematikan lampu terhubung
+                    ToggleLamp(i);
+                }
+            }
         }
     }
 
@@ -59,23 +67,13 @@ public class LampManager : MonoBehaviour
             return;
         }
 
-        // Mendapatkan komponen Renderer dari lampu
-        Renderer lampRenderer = listLamp[lampIndex].GetComponent<Renderer>();
-
-        // Memeriksa apakah lampu memiliki komponen Renderer
-        if (lampRenderer == null)
-        {
-            Debug.LogError("Lampu tidak memiliki komponen Renderer!");
-            return;
-        }
-
-        // Mengubah status lampu dan materialnya
+        // Mengubah status lampu
         lampStatus[lampIndex] = !lampStatus[lampIndex];
-        lampRenderer.material = lampStatus[lampIndex] ? materialOn : materialOff;
+
+        // Mengaktifkan atau menonaktifkan objek lampu terkait
+        listLight[lampIndex].SetActive(lampStatus[lampIndex]);
 
         // Mengatur teks sesuai dengan status lampu
         listHintTxt[lampIndex].text = lampStatus[lampIndex] ? listHintLampTurnOn[lampIndex] : listHintLampTurnOff[lampIndex];
     }
-
-
 }
