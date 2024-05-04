@@ -22,17 +22,19 @@ public class OpenDoor : MonoBehaviour
 
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit)){
-                if(hit.collider.CompareTag(KeyTag) && Vector3.Distance(hit.collider.transform.position, hit.point) <= maxDistance){
-                    if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonDown(0)){
+                        
+           Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit)){
+                    if(hit.collider.CompareTag(KeyTag) && Vector3.Distance(hit.collider.transform.position, hit.point) <= maxDistance){
+                        
                         activeTimer = true;
                         clickCount += 1;
                         Debug.Log(clickCount);
                     }
                 }
-            }
+        }
 
         if(activeTimer){
             currentTime += Time.deltaTime;
