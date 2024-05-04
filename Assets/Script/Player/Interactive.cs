@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class Interactive : MonoBehaviour
 {
-    public GameObject keyPad;
+    public OpenDoor opendoor;
+    public GameObject KeyObject_IsRb;
+    public GameObject KeyObject_NoRb;
+
+    public GameObject keyPad_Panel;
+    public Keypad KeyPad_Mechanism;
     public FirstPersonController fpscontroll;
 
     private bool isInteractDevice = false;
@@ -10,12 +15,13 @@ public class Interactive : MonoBehaviour
 
     private void Start()
     {
-        keyPad.SetActive(false);
+        keyPad_Panel.SetActive(false);
+        KeyObject_NoRb.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -26,16 +32,41 @@ public class Interactive : MonoBehaviour
                 {
                     // Toggle interaksi
                     isInteractDevice = !isInteractDevice;
+
+                    KeyPad_Mechanism.isSmartDoor = true;
+                }else if(hit.collider.CompareTag("Brankas")){
+                    isInteractDevice = !isInteractDevice;
+
+                    KeyPad_Mechanism.isSmartDoor = false;
+                }else if(hit.collider.CompareTag("Key")){
+                    GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Key");
+                    foreach (GameObject keyObject in keyObjects)
+                    {
+                        Destroy(keyObject);
+                        opendoor.isNotKeydoor = false;
+                    }
                 }
             }
-        }
+        }else
 
         if(isInteractDevice == true){
-            keyPad.SetActive(true);
+            keyPad_Panel.SetActive(true);
             fpscontroll.ActivityDevice = true;
         }else{
-            keyPad.SetActive(false);
+            keyPad_Panel.SetActive(false);
             fpscontroll.ActivityDevice = false;
+        }
+
+        if(opendoor.isNotKeydoor == false && Input.GetKey(KeyCode.E)){
+            DropKey();
+        }
+    }
+
+    public void DropKey(){
+        if(opendoor.isNotKeydoor == false){
+            Instantiate(KeyObject_IsRb, transform.position, transform.rotation);
+            KeyObject_NoRb.SetActive(false);
+            opendoor.isNotKeydoor = true;
         }
     }
 }
