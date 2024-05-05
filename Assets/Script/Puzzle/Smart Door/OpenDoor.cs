@@ -8,7 +8,7 @@ public class OpenDoor : MonoBehaviour
 
     public float maxDistance = 2f;
 
-    public GameObject DoorObject; 
+    public ExitDoorAnimation ExitDoor; 
 
     private bool activeTimer = false;
 
@@ -54,8 +54,7 @@ public class OpenDoor : MonoBehaviour
         
 
         if(clickCount == 3){
-            DoorObject.SetActive(false);
-            Debug.Log("Pintu hilang");
+            ExitDoor.isOpen = true;
         }
     }
 }

@@ -9,6 +9,8 @@ public class Keypad : MonoBehaviour
     public OpenDoorWithCode mekanika_pintu_kantor;
     public BrankasSystem mekanik_brankas;
 
+    public Interactive interaksi;
+
     [Header("Internal Preference")]
     [SerializeField] private TextMeshProUGUI textAnswer;
     // [SerializeField] private GameObject keypad_panel;
@@ -69,6 +71,8 @@ public class Keypad : MonoBehaviour
                     isInput = false;
                     textAnswer.text = "Correct";
 
+                    interaksi.PintuTerbuka = true;
+
                     mekanika_pintu_kantor.isOpen = true;
                     Invoke("ClearTextAnswer", 4);
                 }
@@ -86,6 +90,8 @@ public class Keypad : MonoBehaviour
                 {
                     isInput = false;
                     textAnswer.text = "Correct";
+
+                    interaksi.BrankasTerbuka = true;
 
                     mekanik_brankas.isOpen = true;
 

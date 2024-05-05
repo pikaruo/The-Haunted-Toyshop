@@ -13,5 +13,6 @@ public class SceneProperty : MonoBehaviour
     SceneManager.LoadScene("MainMenu");
    }
 
-   
+
+
 }
