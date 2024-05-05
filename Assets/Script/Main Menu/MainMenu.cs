@@ -7,9 +7,12 @@ public class MainMenu : MonoBehaviour
     public GameObject SettingsBoard;
     public GameObject AboutPanel;
 
+    public GameObject Umum, Audio, Kontroller;
+
     public void Start(){
         SettingsBoard.SetActive(false);
         AboutPanel.SetActive(false);
+       
     }
 
     public void open_settings(){
@@ -29,4 +32,21 @@ public class MainMenu : MonoBehaviour
     }
 
     
+    public void SetUmum(){
+        Umum.SetActive(true);
+        Audio.SetActive(false);
+        Kontroller.SetActive(false);
+    }
+
+    public void SetAudio(){
+        Umum.SetActive(false);
+        Audio.SetActive(true);
+        Kontroller.SetActive(false);
+    }
+
+    public void SetKontrol(){
+        Umum.SetActive(false);
+        Audio.SetActive(false);
+        Kontroller.SetActive(true);
+    }
 }
