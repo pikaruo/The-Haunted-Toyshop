@@ -70,6 +70,7 @@ public class Keypad : MonoBehaviour
                 {
                     isInput = false;
                     textAnswer.text = "Correct";
+                    AudioManager.Instance.TestTwo();
 
                     interaksi.PintuTerbuka = true;
 
@@ -94,6 +95,7 @@ public class Keypad : MonoBehaviour
                     interaksi.BrankasTerbuka = true;
 
                     mekanik_brankas.isOpen = true;
+                    AudioManager.Instance.TestTwo();
 
                     Invoke("ClearTextAnswer", 2);
                 }

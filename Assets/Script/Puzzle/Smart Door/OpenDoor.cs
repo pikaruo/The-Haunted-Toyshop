@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OpenDoor : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class OpenDoor : MonoBehaviour
     public float currentTime = 0f;
 
     public bool isNotKeydoor = true;
+
+    public GameObject tamat;
 
     void Start()
     {
@@ -35,7 +38,11 @@ public class OpenDoor : MonoBehaviour
                         activeTimer = true;
                         clickCount += 1;
                         Debug.Log(clickCount);
-                    }else{
+                        AudioManager.Instance.TestOne();
+                    }
+                    else{
+                        tamat.SetActive(true);
+                        Cursor.lockState = CursorLockMode.Confined;
                         Debug.Log("Player sedang membawa kunci");
                     }
                 }
@@ -55,6 +62,7 @@ public class OpenDoor : MonoBehaviour
 
         if(clickCount == 3){
             ExitDoor.isOpen = true;
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

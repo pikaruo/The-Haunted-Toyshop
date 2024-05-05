@@ -51,6 +51,7 @@ public class LampManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) // Ubah menjadi tombol yang diinginkan
                 {
                     // Menyalakan atau mematikan lampu terhubung
+                    AudioManager.Instance.TestOne();
                     ToggleLamp(i);
                 }
             }

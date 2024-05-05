@@ -33,18 +33,21 @@ public class Interactive : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Computer") && PintuTerbuka == false)
                 {
+                    AudioManager.Instance.TestOne();
                     // Toggle interaksi
                     isInteractDevice = !isInteractDevice;
 
                     KeyPad_Mechanism.isSmartDoor = true;
                 }else if(hit.collider.CompareTag("Brankas") && BrankasTerbuka == false){
                     isInteractDevice = true;
+                    AudioManager.Instance.TestOne();
 
                     KeyPad_Mechanism.isSmartDoor = false;
                 }else if(hit.collider.CompareTag("Key")){
                     GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Key");
                     foreach (GameObject keyObject in keyObjects)
                     {
+                        AudioManager.Instance.TestOne();
                         Destroy(keyObject);
                         opendoor.isNotKeydoor = false;
                     }
@@ -67,6 +70,7 @@ public class Interactive : MonoBehaviour
 
     public void DropKey(){
         if(opendoor.isNotKeydoor == false){
+            AudioManager.Instance.TestOne();
             Instantiate(KeyObject_IsRb, transform.position, transform.rotation);
             KeyObject_NoRb.SetActive(false);
             opendoor.isNotKeydoor = true;
